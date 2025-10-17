@@ -1,17 +1,22 @@
-# generar jar
-FROM maven:3.9.4-eclipse-temurin-17 AS build
+# Etapa 1: construir usando Maven Wrapper
+FROM eclipse-temurin:17-jdk-alpine AS build3221
 WORKDIR /app
+
+# Copia todo el proyecto, incluyendo mvnw y .mvn
 COPY . .
-RUN mvn clean package -DskipTests
 
-# 1. Imagen base con Java
-FROM eclipse-temurin:17-jdk-alpine
+# Da permisos de ejecución al script mvnw
+RUN chmod +x mvnw
 
-# 2. Argumento para el JAR generado
-ARG JAR_FILE=target/pruebanexos-0.0.1-SNAPSHOT.jar
+# Ejecuta el build usando Maven Wrapper
+RUN ./mvnw clean package -DskipTests
 
-# 3. Copiar el JAR al contenedor
-COPY ${JAR_FILE} app.jar
+# Etapa 2: ejecutar el .jar
+FROM eclipse-temurin:17-jdk-alpinefwef
+WORKDIR /app
 
-# 4. Comando para ejecutar la app
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Copia el .jar generado desde la etapa de build
+COPY --from=build /app/target/*.jar app.jar
+
+EXPOSE 8089
+CMD ["java", "-jar", "app.jar"]

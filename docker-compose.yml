@@ -19,6 +19,7 @@ services:
   bank-service:
     build:
       context: ./PruebaNexos
+      dockerfile: Dockerfilelocal
     container_name: bank-service
     ports:
       - "8089:8089"
