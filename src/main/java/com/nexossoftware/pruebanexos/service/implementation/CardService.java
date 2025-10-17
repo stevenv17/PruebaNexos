@@ -1,7 +1,11 @@
 package com.nexossoftware.pruebanexos.service.implementation;
 
+import com.nexossoftware.pruebanexos.dto.CardBalanceDtoOut;
+import com.nexossoftware.pruebanexos.dto.CardDtoIn;
 import com.nexossoftware.pruebanexos.dto.CardDtoOut;
+import com.nexossoftware.pruebanexos.dto.MessageDtoOut;
 import com.nexossoftware.pruebanexos.exception.ElementNotFoundException;
+import com.nexossoftware.pruebanexos.exception.ErrorGeneralException;
 import com.nexossoftware.pruebanexos.jpa.entity.CardEntity;
 import com.nexossoftware.pruebanexos.jpa.entity.ProductEntity;
 import com.nexossoftware.pruebanexos.jpa.repository.CardRepository;
@@ -56,6 +60,74 @@ public class CardService implements ICardService {
     CardEntity cardEntitySaved = cardRepository.save(cardEntity);
 
     return cardMapper.toDto(cardEntitySaved);
+  }
+
+  @Override
+  public MessageDtoOut enrollCard(CardDtoIn cardDtoIn) throws ElementNotFoundException {
+    Optional<CardEntity> cardEntityOptional = cardRepository.findById(cardDtoIn.getCardId());
+    if(cardEntityOptional.isEmpty()) {
+      throw new ElementNotFoundException("Card not found");
+    }
+    CardEntity cardEntity = cardEntityOptional.get();
+    cardEntity.setStatus(CardStatusEnum.ACTIVE.name());
+    cardRepository.save(cardEntity);
+
+    MessageDtoOut messageDtoOut = new MessageDtoOut();
+    messageDtoOut.setResult(Constantes.MESSAGE_OK);
+    messageDtoOut.setMessage("Card activated");
+    return messageDtoOut;
+  }
+
+  @Override
+  public MessageDtoOut blockCard(String cardId) throws ElementNotFoundException {
+    Optional<CardEntity> cardEntityOptional = cardRepository.findById(cardId);
+    if(cardEntityOptional.isEmpty()) {
+      throw new ElementNotFoundException("Card not found");
+    }
+
+    CardEntity cardEntity = cardEntityOptional.get();
+    cardEntity.setStatus(CardStatusEnum.BLOCKED.name());
+    cardRepository.save(cardEntity);
+
+    MessageDtoOut messageDtoOut = new MessageDtoOut();
+    messageDtoOut.setResult(Constantes.MESSAGE_OK);
+    messageDtoOut.setMessage("Card blocked");
+    return messageDtoOut;
+  }
+
+  @Override
+  public MessageDtoOut rechargeCard(CardDtoIn cardDtoIn) throws ElementNotFoundException, ErrorGeneralException {
+    Optional<CardEntity> cardEntityOptional = cardRepository.findById(cardDtoIn.getCardId());
+    if(cardEntityOptional.isEmpty()) {
+      throw new ElementNotFoundException("Card not found");
+    }
+
+    if(cardDtoIn.getBalance() < 0) {
+      throw new ErrorGeneralException("Balance can't be less than 0");
+    }
+
+    CardEntity cardEntity = cardEntityOptional.get();
+    Long newBalance = cardEntity.getBalance() + cardDtoIn.getBalance();
+    cardEntity.setBalance(newBalance);
+    cardRepository.save(cardEntity);
+
+    MessageDtoOut messageDtoOut = new MessageDtoOut();
+    messageDtoOut.setResult(Constantes.MESSAGE_OK);
+    messageDtoOut.setMessage("Card recharged");
+    return messageDtoOut;
+  }
+
+  @Override
+  public CardBalanceDtoOut obtainCardBalance(String cardId) throws ElementNotFoundException {
+    Optional<CardEntity> cardEntityOptional = cardRepository.findById(cardId);
+    if(cardEntityOptional.isEmpty()) {
+      throw new ElementNotFoundException("Card not found");
+    }
+    CardEntity cardEntity = cardEntityOptional.get();
+
+    CardBalanceDtoOut cardBalanceDtoOut = new CardBalanceDtoOut();
+    cardBalanceDtoOut.setBalance(cardEntity.getBalance());
+    return cardBalanceDtoOut;
   }
 
   /**
