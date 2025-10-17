@@ -63,3 +63,9 @@ Por ejemplo, si el producto es de tipo cuenta de ahorros (SAVING_ACCOUNT), se cr
 ![imagen](./imagenes/Imagen12.png)
 ![imagen](./imagenes/Imagen13.png)
 ![imagen](./imagenes/Imagen14.png)
+
+# Pruebas unitarias:
+
+Para correr las pruebas unitarias se utiliza el comando "**./mvnw verify**" desde la raiz del repositorio, en donde también se evidencia que tiene el criterio de cobertura del 80%:
+
+![imagen](./imagenes/Imagen18.png)
