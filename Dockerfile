@@ -1,5 +1,5 @@
 # Etapa 1: construir usando Maven Wrapper
-FROM eclipse-temurin:17-jdk-alpine AS build3221
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 
 # Copia todo el proyecto, incluyendo mvnw y .mvn
@@ -12,7 +12,7 @@ RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
 # Etapa 2: ejecutar el .jar
-FROM eclipse-temurin:17-jdk-alpinefwef
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
 # Copia el .jar generado desde la etapa de build
