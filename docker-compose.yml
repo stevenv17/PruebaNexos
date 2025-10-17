@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mysqlnexos:
+    image: mysql:8.0
+    container_name: mysqlnexos
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nexosdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqlnexos-data:/var/lib/mysql
+    networks:
+      - microservicios-net-nexos
+
+  bank-service:
+    build:
+      context: ./PruebaNexos
+    container_name: bank-service
+    ports:
+      - "8089:8089"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqlnexos:3306/nexosdb?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=pass
+    networks:
+      - microservicios-net-nexos
+
+volumes:
+  mysqlnexos-data:
+
+networks:
+  microservicios-net-nexos:
+    driver: bridge
+
