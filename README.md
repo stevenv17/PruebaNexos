@@ -1,3 +1,8 @@
+# Introducción
+
+Esta prueba fue desarrollada usando **Spring Boot** como framework de JAVA, **MySQL** como base de datos relacional y **Docker Compose** para crear contenedores y desplegar.
+
+
 # Despliegue con Docker
 
 En una carpeta vacía ubicar el archivo docker-compose.yml (que esta en la raiz del proyecto del repositorio) y en esa misma carpeta ubicar el repositorio:
