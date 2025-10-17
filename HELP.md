@@ -32,3 +32,21 @@ En la raiz del proyecto esta la colección de peticiones (Insomnia_collection_ne
 
 
 ![imagen](./imagenes/Imagen8.png)
+
+
+# Modelo base de datos:
+
+![imagen](./imagenes/Imagen9.png)
+
+### Data inicial:
+
+Se creó data inicial para cumplir con el objetivo de la prueba. Se crearon personas, productos, tipos de productos, estados de tarjeta, tipos de tarjeta y estados de transacciones.
+Por ejemplo, si el producto es de tipo cuenta de ahorros (SAVING_ACCOUNT), se crea una tarjeta de tipo débito (DEBIT).
+
+![imagen](./imagenes/Imagen9.png)
+![imagen](./imagenes/Imagen10.png)
+![imagen](./imagenes/Imagen11.png)
+![imagen](./imagenes/Imagen12.png)
+![imagen](./imagenes/Imagen13.png)
+![imagen](./imagenes/Imagen14.png)
+
