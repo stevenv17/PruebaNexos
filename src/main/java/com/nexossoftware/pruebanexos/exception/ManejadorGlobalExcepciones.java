@@ -1,6 +1,6 @@
 package com.nexossoftware.pruebanexos.exception;
 
-import com.nexossoftware.pruebanexos.dto.ExcepcionDto;
+import com.nexossoftware.pruebanexos.dto.ExceptionDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,35 +13,35 @@ public class ManejadorGlobalExcepciones {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Object> manejarErrorGeneral(Exception ex) {
-    log.error("Excepción: ", ex);
-    ExcepcionDto excepcionDto = ExcepcionDto.builder()
-        .codigo(HttpStatus.INTERNAL_SERVER_ERROR.value())
-        .mensaje("Ha ocurrido un error inesperado")
+    log.error("Exception: ", ex);
+    ExceptionDto exceptionDto = ExceptionDto.builder()
+        .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+        .message("Unexpected error")
         .build();
 
-    return new ResponseEntity<>(excepcionDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(exceptionDto, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler(ErrorGeneralException.class)
   public ResponseEntity<Object> manejarErrorGeneral(ErrorGeneralException ex) {
-    log.error("Excepción general: ", ex);
-    ExcepcionDto excepcionDto = ExcepcionDto.builder()
-        .codigo(HttpStatus.INTERNAL_SERVER_ERROR.value())
-        .mensaje(ex.getMessage())
+    log.error("Exception general: ", ex);
+    ExceptionDto exceptionDto = ExceptionDto.builder()
+        .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+        .message(ex.getMessage())
         .build();
 
-    return new ResponseEntity<>(excepcionDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(exceptionDto, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @ExceptionHandler(ElementoNoEncontradoException.class)
-  public ResponseEntity<Object> manejarElementoNoEncontrado(ElementoNoEncontradoException ex) {
-    log.error("Excepción not found: ", ex);
-    ExcepcionDto excepcionDto = ExcepcionDto.builder()
-        .codigo(HttpStatus.NOT_FOUND.value())
-        .mensaje(ex.getMessage())
+  @ExceptionHandler(ElementNotFoundException.class)
+  public ResponseEntity<Object> manejarElementoNoEncontrado(ElementNotFoundException ex) {
+    log.error("Exception not found: ", ex);
+    ExceptionDto exceptionDto = ExceptionDto.builder()
+        .code(HttpStatus.NOT_FOUND.value())
+        .message(ex.getMessage())
         .build();
 
-    return new ResponseEntity<>(excepcionDto, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
   }
 
 }

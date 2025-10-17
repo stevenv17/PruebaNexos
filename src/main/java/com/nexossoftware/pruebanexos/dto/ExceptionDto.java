@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExcepcionDto {
-  private String resultado = "ERROR";
-  private String mensaje;
-  private Integer codigo;
+public class ExceptionDto {
+  private String result = "ERROR";
+  private String message;
+  private Integer code;
 }
