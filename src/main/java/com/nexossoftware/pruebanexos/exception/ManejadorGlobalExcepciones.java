@@ -7,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @ControllerAdvice
 @Slf4j
 public class ManejadorGlobalExcepciones {
@@ -27,7 +24,7 @@ public class ManejadorGlobalExcepciones {
 
   @ExceptionHandler(ErrorGeneralException.class)
   public ResponseEntity<Object> manejarErrorGeneral(ErrorGeneralException ex) {
-    log.error("Excepción: ", ex);
+    log.error("Excepción general: ", ex);
     ExcepcionDto excepcionDto = ExcepcionDto.builder()
         .codigo(HttpStatus.INTERNAL_SERVER_ERROR.value())
         .mensaje(ex.getMessage())
@@ -38,7 +35,7 @@ public class ManejadorGlobalExcepciones {
 
   @ExceptionHandler(ElementoNoEncontradoException.class)
   public ResponseEntity<Object> manejarElementoNoEncontrado(ElementoNoEncontradoException ex) {
-    log.error("Excepción: ", ex);
+    log.error("Excepción not found: ", ex);
     ExcepcionDto excepcionDto = ExcepcionDto.builder()
         .codigo(HttpStatus.NOT_FOUND.value())
         .mensaje(ex.getMessage())
